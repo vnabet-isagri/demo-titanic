@@ -6,13 +6,17 @@
   "scripts": {
     "dev:angular": "pnpm --filter frontend-angular ng serve",
     "build:angular": "pnpm --filter frontend-angular ng build",
-    "dev:nitro": "pnpm --filter backend-nitro dev"
+    "dev:nitro": "pnpm --filter backend-nitro dev",
+    "dev": "concurrently \"pnpm run dev:angular\" \"pnpm run dev:nitro\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.17.0",
   "workspaces": [
-    "apps/*"
-  ]
+    "apps/*".data
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
 }
