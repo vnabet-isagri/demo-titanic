@@ -1,0 +1,15 @@
+# Node
+node_modules/
+
+# Angular
+apps/frontend-angular/node_modules/
+apps/frontend-angular/dist/
+apps/frontend-angular/.angular/
+
+# Nitro
+apps/backend-nitro/node_modules/
+apps/backend-nitro/.output/
+
+# IDE/OS
+.vscode/
+.DS_Store

@@ -1,0 +1,17 @@
+{
+  "name": "demo-titanic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:angular": "pnpm --filter frontend-angular ng serve",
+    "build:angular": "pnpm --filter frontend-angular ng build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.17.0",
+  "workspaces": [
+    "apps/*"
+  ]
+}
