@@ -1,4 +1,24 @@
 @let passengers = passengers$ | async;
-<div>
-  {{passengers?.data | json }}
-</div>
+
+@if(passengers?.data?.length) {
+  <div class="overflow-x-auto py-6">
+    <table class="min-w-full border border-gray-200 rounded-lg shadow-lg bg-white">
+      <thead>
+        <tr class="bg-blue-400 text-white">
+          <th class="px-6 py-3 text-left font-semibold">ID</th>
+          <th class="px-6 py-3 text-left font-semibold">Nom</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(passenger of passengers?.data; track passenger.id) {
+          <tr class="even:bg-blue-50 odd:bg-gray-100 hover:bg-blue-100 transition-colors">
+            <td class="px-6 py-4 border-b border-gray-200">{{passenger.id}}</td>
+            <td class="px-6 py-4 border-b border-gray-200">{{passenger.name}}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+} @else {
+  <p class="text-gray-500 italic py-8 text-center">Aucun passager.</p>
+}

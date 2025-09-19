@@ -1,13 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {PassengersFilter} from './models/passengers-filter';
 import {PassengersService} from './passengers-service';
-import {AsyncPipe, JsonPipe} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-passengers',
   imports: [
-    AsyncPipe,
-    JsonPipe
+    AsyncPipe
   ],
   templateUrl: './passengers.html',
   styles: ``,
@@ -20,7 +19,9 @@ export class Passengers {
     survived: false,
     name: 'john',
     orderby: 'name',
-    order: 'DESC'
+    order: 'DESC',
+    page: 1,
+    limit: 15
   }
   protected passengers$ = this.#passengersService.getAll(this.filter)
 }
