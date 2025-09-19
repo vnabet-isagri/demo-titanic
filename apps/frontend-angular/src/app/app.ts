@@ -5,7 +5,7 @@ import {PassengersService} from './passengers/passengers-service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
