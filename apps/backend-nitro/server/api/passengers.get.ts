@@ -38,7 +38,6 @@ export default defineEventHandler(async (event) => {
 
     if(data.length) {
         pagination = await getPagination(params, db);
-        if(pagination) pagination.limit = parseInt(params?.limit ?? '');
     }
 
     if(pagination) {
@@ -50,7 +49,12 @@ export default defineEventHandler(async (event) => {
 
         }
     }
-    return data;
+    return {
+        data: [],
+        page: 1,
+        limit: parseInt(params?.limit ?? '') ?? 0,
+        total: 0
+    };
 })
 
 /**
@@ -70,9 +74,11 @@ function getNameQuery(params: Partial<Params>) {
  * @param params
  */
 function getPageQuery(params: Partial<Params>) {
-    if(params.page > 0 && params.limit > 0) {
-        const offset = (params.page - 1) * params.limit;
-        return ` LIMIT ${params.limit} OFFSET ${offset} `;
+    const page = parseInt(params?.page ?? '') ?? 0;
+    const limit = parseInt(params?.limit ?? '') ?? 0
+    if(page > 0 && limit > 0) {
+        const offset = (page - 1) * limit;
+        return ` LIMIT ${limit} OFFSET ${offset} `;
     }
     return '';
 }
@@ -121,18 +127,35 @@ function getWhereQuery(params: Partial<Params>) {
  * @param db
  */
 async function getPagination(params: Partial<Params>, db:any) {
-    if(params?.page > 0 && params?.limit > 0) {
-        const offset = (params.page - 1) * params.limit;
-        const whereQuery = getWhereQuery(params);
-        const query = `SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY id) - 1) / ${params.limit}) + 1 AS page,
-                                   (SELECT COUNT(*) FROM passengers ${whereQuery}) AS total
+    const whereQuery = getWhereQuery(params);
+
+    const page = parseInt(params?.page ?? '') ?? 0;
+    const limit = parseInt(params?.limit ?? '') ?? 0
+    if(page > 0 && limit > 0) {
+        const offset = (page - 1) * limit;
+        const query = `SELECT FLOOR((ROW_NUMBER() OVER (ORDER BY id) - 1) / ${limit}) + 1 AS page,
+                                   (SELECT COUNT(id) FROM passengers ${whereQuery}) AS total
                             FROM passengers ${whereQuery}
                             LIMIT 1 OFFSET ${offset}`;
 
         const statment = db.prepare(query);
         const pagination = await statment.get();
 
-        return pagination
+        return {
+            page: pagination.page,
+            total: pagination.total,
+            limit
+        }
+    } else {
+
+        const query = `SELECT COUNT(id) AS total FROM passengers ${whereQuery}`;
+
+        const statment = db.prepare(query);
+        const pagination = await statment.get();
+        return {
+            page: 1,
+            limit: pagination.total,
+            total: pagination.total
+        };
     }
-    return null;
 }

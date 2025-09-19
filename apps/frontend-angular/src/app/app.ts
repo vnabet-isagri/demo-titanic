@@ -11,7 +11,7 @@ export class App {
   readonly #http = inject(HttpClient);
 
   constructor() {
-    this.#http.get('http://localhost:3000/api/passengers').subscribe(res => console.log(res));
+    this.#http.get('http://localhost:3000/api/passengers?name=john&page=1&limit=10').subscribe(res => console.log(res));
   }
 
 }
