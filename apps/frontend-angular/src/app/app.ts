@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,17 @@ export class App {
   readonly #http = inject(HttpClient);
 
   constructor() {
-    this.#http.get('http://localhost:3000/api/passengers?name=john&page=1&limit=10').subscribe(res => console.log(res));
+
+    const queryParams = {
+      name: 'john',
+      page: 1,
+      limit: 10
+    };
+    let params = new HttpParams();
+    Object.entries(queryParams).forEach(([key, value]) => {
+      params = params.set(key, value.toString());
+    });
+    this.#http.get('http://localhost:3000/api/passengers', {params}).subscribe(res => console.log(res));
   }
 
 }
