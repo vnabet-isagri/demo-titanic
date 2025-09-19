@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {PassengersFilter} from './passengers/passengers-filter';
+import {PassengersService} from './passengers/passengers-service';
 
 @Component({
   selector: 'app-root',
@@ -8,20 +9,18 @@ import {HttpClient, HttpParams} from '@angular/common/http';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
-  readonly #http = inject(HttpClient);
+  readonly #passengersService = inject(PassengersService);
 
   constructor() {
-
-    const queryParams = {
+    const filter:Partial<PassengersFilter> = {
+      survived: false,
       name: 'john',
-      page: 1,
-      limit: 10
-    };
-    let params = new HttpParams();
-    Object.entries(queryParams).forEach(([key, value]) => {
-      params = params.set(key, value.toString());
-    });
-    this.#http.get('http://localhost:3000/api/passengers', {params}).subscribe(res => console.log(res));
+      orderby: 'name',
+      order: 'DESC'
+    }
+
+    this.#passengersService.getAll(filter).subscribe(data => console.log(data))
+
   }
 
 }
