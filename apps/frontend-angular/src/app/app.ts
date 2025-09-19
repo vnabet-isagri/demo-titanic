@@ -1,10 +1,11 @@
-import {Component, inject,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
   readonly #http = inject(HttpClient);
