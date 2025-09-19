@@ -1,11 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {PassengersFilter} from './passengers-filter';
+import {PassengersFilter} from './models/passengers-filter';
 import {Result} from '../shared/result';
-import {PassengerDTO} from './passenger-dto';
+import {PassengerDTO} from './models/passenger-dto';
 import {map, Observable} from 'rxjs';
 import convertPassenger from './passenger-converter';
-import {Passenger} from './passenger';
+import {Passenger} from './models/passenger';
 
 @Injectable({
   providedIn: 'root'

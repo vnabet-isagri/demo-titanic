@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
-import {PassengersFilter} from './passengers/passengers-filter';
+import {PassengersFilter} from './passengers/models/passengers-filter';
 import {PassengersService} from './passengers/passengers-service';
 
 @Component({

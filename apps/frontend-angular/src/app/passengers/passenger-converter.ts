@@ -1,5 +1,5 @@
-import {PassengerDTO} from './passenger-dto';
-import {Passenger, Sex} from './passenger';
+import {PassengerDTO} from './models/passenger-dto';
+import {Passenger, Sex} from './models/passenger';
 
 /**
  * Conversion du DTO d'un passager
