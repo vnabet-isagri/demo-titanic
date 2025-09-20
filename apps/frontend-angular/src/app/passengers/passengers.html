@@ -2,19 +2,19 @@
 
 @if(passengers?.data?.length) {
   <div class="flex items-center justify-end gap-2 py-6">
-    <button class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+    <button (click)="firstPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
       <span class="material-symbols-rounded text-xl">first_page</span>
     </button>
-    <button class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+    <button (click)="previousPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
       <span class="material-symbols-rounded text-xl">chevron_left</span>
     </button>
     <span class="mx-2 px-3 py-1 rounded font-semibold border border-gray-200 shadow-sm min-w-[96px] text-center">
       {{passengers?.page}}/{{passengers?.totalPages}}
     </span>
-    <button class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+    <button (click)="nextPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
       <span class="material-symbols-rounded text-xl">chevron_right</span>
     </button>
-    <button class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+    <button (click)="lastPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
       <span class="material-symbols-rounded text-xl">last_page</span>
     </button>
   </div>
@@ -23,7 +23,7 @@
       <thead>
         <tr class="bg-blue-400 text-white">
           <th class="px-6 py-3 text-center font-semibold">ID</th>
-          <th class="px-6 py-3 text-left font-semibold">Nom</th>
+          <th class="px-6 py-3 text-left font-semibold w-[450px]">Nom</th>
           <th class="px-6 py-3 text-center font-semibold">Sexe</th>
           <th class="px-6 py-3 text-center font-semibold">Age</th>
           <th class="px-6 py-3 text-center font-semibold">Survivant</th>
@@ -40,7 +40,7 @@
         @for(passenger of passengers?.data; track passenger.id) {
           <tr class="even:bg-blue-50 odd:bg-gray-100 hover:bg-blue-100 transition-colors">
             <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.id}}</td>
-            <td class="px-6 py-4 border-b border-gray-200">{{passenger.name}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 w-[450px]">{{passenger.name}}</td>
             <td class="px-6 py-4 border-b border-gray-200 text-center">
               @if(passenger.sex === 'male') {
                 <span class="material-symbols-rounded text-blue-800">male</span>
