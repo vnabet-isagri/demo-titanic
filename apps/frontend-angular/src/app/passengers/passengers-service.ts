@@ -20,7 +20,8 @@ export class PassengersService {
         data: result.data.map(dto => convertPassenger(dto)),
         page: result.page,
         limit: result.limit,
-        total: result.total
+        total: result.total,
+        totalPages: Math.ceil(result.total / result.limit)
       })))
   }
 

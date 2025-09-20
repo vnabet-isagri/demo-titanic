@@ -2,5 +2,6 @@ export type Result<T> = {
   data: T[],
   page: number,
   limit: number,
-  total: number
+  total: number,
+  totalPages?:number,
 }
