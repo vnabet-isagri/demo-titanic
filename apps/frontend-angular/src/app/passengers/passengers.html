@@ -5,15 +5,47 @@
     <table class="min-w-full border border-gray-200 rounded-lg shadow-lg bg-white">
       <thead>
         <tr class="bg-blue-400 text-white">
-          <th class="px-6 py-3 text-left font-semibold">ID</th>
+          <th class="px-6 py-3 text-center font-semibold">ID</th>
           <th class="px-6 py-3 text-left font-semibold">Nom</th>
+          <th class="px-6 py-3 text-center font-semibold">Sexe</th>
+          <th class="px-6 py-3 text-center font-semibold">Age</th>
+          <th class="px-6 py-3 text-center font-semibold">Survivant</th>
+          <th class="px-6 py-3 text-center font-semibold">Classe Passager</th>
+          <th class="px-6 py-3 text-center font-semibold">Ticket</th>
+          <th class="px-6 py-3 text-center font-semibold">Tarif</th>
+          <th class="px-6 py-3 text-center font-semibold">Cabine</th>
+          <th class="px-6 py-3 text-center font-semibold">Embarquement</th>
+          <th class="px-6 py-3 text-center font-semibold">Frère(s), soeur(s), conjoint</th>
+          <th class="px-6 py-3 text-center font-semibold">Parent(s), enfant(s)</th>
         </tr>
       </thead>
       <tbody>
         @for(passenger of passengers?.data; track passenger.id) {
           <tr class="even:bg-blue-50 odd:bg-gray-100 hover:bg-blue-100 transition-colors">
-            <td class="px-6 py-4 border-b border-gray-200">{{passenger.id}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.id}}</td>
             <td class="px-6 py-4 border-b border-gray-200">{{passenger.name}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">
+              @if(passenger.sex === 'male') {
+                <span class="material-symbols-rounded text-blue-800">male</span>
+              } @else {
+                <span class="material-symbols-rounded text-red-800">female</span>
+              }
+            </td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.age}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">
+               @if(passenger.survived) {
+                 <span class="material-symbols-rounded text-green-800">heart_check</span>
+               } @else {
+                 <span class="material-symbols-rounded">skull</span>
+               }
+            </td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.pclass}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.ticket}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.fare}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.cabin}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.embarked}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.sibSp}}</td>
+            <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.parch}}</td>
           </tr>
         }
       </tbody>

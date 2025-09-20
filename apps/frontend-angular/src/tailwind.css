@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: "Poppins", sans-serif;
+}
+
+@layer base {
+  html,
+  body,
+  *, *::before, *::after {
+    font-family: var(--font-poppins), serif, sans-serif;
+  }
+}

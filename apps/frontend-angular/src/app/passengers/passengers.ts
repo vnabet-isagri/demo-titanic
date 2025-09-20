@@ -16,10 +16,6 @@ export class Passengers {
   readonly #passengersService = inject(PassengersService);
 
   protected filter:Partial<PassengersFilter> = {
-    survived: false,
-    name: 'john',
-    orderby: 'name',
-    order: 'DESC',
     page: 1,
     limit: 15
   }
