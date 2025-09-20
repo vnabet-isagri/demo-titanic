@@ -1,5 +1,13 @@
 @let passengers = passengers$ | async;
 
+<div>
+  <button><span class="material-symbols-rounded">first_page</span></button>
+  <button><span class="material-symbols-rounded">chevron_left</span></button>
+  <span>1/36</span>
+  <button><span class="material-symbols-rounded">chevron_right</span></button>
+  <button><span class="material-symbols-rounded">last_page</span></button>
+</div>
+
 @if(passengers?.data?.length) {
   <div class="overflow-x-auto py-6">
     <table class="min-w-full border border-gray-200 rounded-lg shadow-lg bg-white">
