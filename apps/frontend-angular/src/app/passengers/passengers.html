@@ -1,23 +1,25 @@
-@let passengers = passengers$ | async;
+@if(passengers().length) {
 
-@if(passengers?.data?.length) {
-  <div class="flex items-center justify-end gap-2 py-6">
-    <button (click)="firstPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
-      <span class="material-symbols-rounded text-xl">first_page</span>
-    </button>
-    <button (click)="previousPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
-      <span class="material-symbols-rounded text-xl">chevron_left</span>
-    </button>
-    <span class="mx-2 px-3 py-1 rounded font-semibold border border-gray-200 shadow-sm min-w-[96px] text-center">
-      {{passengers?.page}}/{{passengers?.totalPages}}
+  @if(pagination()) {
+    <div class="flex items-center justify-end gap-2 py-6">
+      <button (click)="firstPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+        <span class="material-symbols-rounded text-xl">first_page</span>
+      </button>
+      <button (click)="previousPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+        <span class="material-symbols-rounded text-xl">chevron_left</span>
+      </button>
+      <span class="mx-2 px-3 py-1 rounded font-semibold border border-gray-200 shadow-sm min-w-[96px] text-center">
+      {{pagination()!.page}}/{{pagination()!.totalPages}}
     </span>
-    <button (click)="nextPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
-      <span class="material-symbols-rounded text-xl">chevron_right</span>
-    </button>
-    <button (click)="lastPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
-      <span class="material-symbols-rounded text-xl">last_page</span>
-    </button>
-  </div>
+      <button (click)="nextPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+        <span class="material-symbols-rounded text-xl">chevron_right</span>
+      </button>
+      <button (click)="lastPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
+        <span class="material-symbols-rounded text-xl">last_page</span>
+      </button>
+    </div>
+  }
+
   <div class="overflow-x-auto">
     <table class="min-w-full border border-gray-200 rounded-lg shadow-lg bg-white">
       <thead>
@@ -37,7 +39,7 @@
         </tr>
       </thead>
       <tbody>
-        @for(passenger of passengers?.data; track passenger.id) {
+        @for(passenger of passengers(); track passenger.id) {
           <tr class="even:bg-blue-50 odd:bg-gray-100 hover:bg-blue-100 transition-colors">
             <td class="px-6 py-4 border-b border-gray-200 text-center">{{passenger.id}}</td>
             <td class="px-6 py-4 border-b border-gray-200 w-[450px]">{{passenger.name}}</td>
@@ -71,3 +73,4 @@
 } @else {
   <p class="text-gray-500 italic py-8 text-center">Aucun passager.</p>
 }
+-->

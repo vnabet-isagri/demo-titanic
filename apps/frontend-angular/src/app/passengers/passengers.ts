@@ -1,16 +1,11 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {PassengersFilter} from './models/passengers-filter';
 import {PassengersService} from './passengers-service';
-import {AsyncPipe} from '@angular/common';
-import {BehaviorSubject, distinctUntilChanged, Observable, switchMap, tap} from 'rxjs';
-import {Result} from '../shared/result';
-import {Passenger} from './models/passenger';
+import {rxResource} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-passengers',
-  imports: [
-    AsyncPipe
-  ],
+  imports: [],
   templateUrl: './passengers.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,20 +14,31 @@ export class Passengers {
   // Le service des passagers
   readonly #passengersService = inject(PassengersService);
 
-  #filter$ = new BehaviorSubject<Partial<PassengersFilter>>({
+  // Filtre de recherche des passagers
+  #filter = signal<Partial<PassengersFilter>>({
     page: 1,
     limit: 15
-  })
+  });
 
-  // Je garde une trace du nombre total de pages
-  #totalPages:number = 0;
-  // Mes données
-  // Le chargement est déclenché de façon réactive par la mise à jour du filtre
-  protected passengers$:Observable<Result<Passenger>> = this.#filter$.pipe(
-    distinctUntilChanged(),
-    switchMap(filters => this.#passengersService.getAll(filters)),
-    tap(result => this.#totalPages = result.totalPages ?? 0)
-  )
+  // Ressource rxJS,
+  // elle est mise à jour avec la mise à jour du filtre
+  readonly #passengersRessource = rxResource({
+    params: this.#filter,
+    stream: ({params}) => this.#passengersService.getAll(params),
+  });
+
+  // Computed signal qui me renvoie la liste des passagers
+  protected readonly passengers = computed(() => this.#passengersRessource.hasValue()?this.#passengersRessource.value()?.data:[])
+  // Computed signal qui me renvoiie la pagination
+  protected readonly pagination = computed(() => {
+    if(this.#passengersRessource.hasValue()){
+      const value = this.#passengersRessource.value();
+      return {
+        page: value.page!,
+        totalPages: value.totalPages!
+      }
+    } else return null;
+  })
 
   /**
    * Première page
@@ -45,7 +51,7 @@ export class Passengers {
    * Page précédente
    */
   previousPage() {
-    const currentPage = this.#filter$.getValue().page!;
+    const currentPage = this.pagination()!.page;
     const page = (currentPage! - 1) || 1;
     this.#getPage(page)
   }
@@ -54,8 +60,8 @@ export class Passengers {
    * Page suivante
    */
   nextPage() {
-    const currentPage = this.#filter$.getValue().page!;
-    const page = Math.min(currentPage + 1, this.#totalPages);
+    const currentPage = this.pagination()!.page;
+    const page = Math.min(currentPage + 1, this.pagination()!.totalPages);
     this.#getPage(page);
   }
 
@@ -63,7 +69,7 @@ export class Passengers {
    * Dernière page
    */
   lastPage() {
-    this.#getPage(this.#totalPages);
+    this.#getPage(this.pagination()!.totalPages);
   }
 
   /**
@@ -72,6 +78,6 @@ export class Passengers {
    * @private
    */
   #getPage(page:number) {
-    this.#filter$.next({...this.#filter$.getValue(), page});
+    this.#filter.update(filter => ({...filter, page}));
   }
 }
