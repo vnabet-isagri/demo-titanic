@@ -1,6 +1,28 @@
-@if(passengers().length) {
-
-  @if(pagination()) {
+<div class="flex justify-between items-center px-4 py-2 mb-4">
+  <div>
+    <label for="name" class="block mb-1">Recherche par nom :</label>
+    <input
+      [(ngModel)]="name"
+      type="text"
+      id="name"
+      name="name"
+      placeholder="Tapez un nom"
+      class="w-64 px-4 py-2 border border-blue-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 transition"
+    >
+    <button
+      (click)="search()"
+      class="ml-2 px-4 py-2 bg-blue-400 text-white font-semibold rounded-lg shadow hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+    >
+      Rechercher
+    </button>
+    <button
+      (click)="clearSearch()"
+      class="ml-2 px-4 py-2 bg-red-400 text-white font-semibold rounded-lg shadow hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-400 transition"
+    >
+      Annuler
+    </button>
+  </div>
+  @if(pagination() && pagination()?.totalPages) {
     <div class="flex items-center justify-end gap-2 py-6">
       <button (click)="firstPage()" class="flex items-center justify-center p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-colors">
         <span class="material-symbols-rounded text-xl">first_page</span>
@@ -19,7 +41,9 @@
       </button>
     </div>
   }
+</div>
 
+@if(passengers().length) {
   <div class="overflow-x-auto">
     <table class="min-w-full border border-gray-200 rounded-lg shadow-lg bg-white">
       <thead>
@@ -73,4 +97,4 @@
 } @else {
   <p class="text-gray-500 italic py-8 text-center">Aucun passager.</p>
 }
--->
+

@@ -1,11 +1,14 @@
-import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, model, signal} from '@angular/core';
 import {PassengersFilter} from './models/passengers-filter';
 import {PassengersService} from './passengers-service';
 import {rxResource} from '@angular/core/rxjs-interop';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-passengers',
-  imports: [],
+  imports: [
+    FormsModule
+  ],
   templateUrl: './passengers.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -19,6 +22,9 @@ export class Passengers {
     page: 1,
     limit: 15
   });
+
+  // Champ de recherche sur le nom
+  protected readonly name = model('ddd');
 
   // Ressource rxJS,
   // elle est mise à jour avec la mise à jour du filtre
@@ -79,5 +85,20 @@ export class Passengers {
    */
   #getPage(page:number) {
     this.#filter.update(filter => ({...filter, page}));
+  }
+
+  /**
+   * Lancement de la recherche
+   */
+  search() {
+    this.#filter.update(filter => ({...filter, page:1, name: this.name()}));
+  }
+
+  /**
+   * Effacement des critères de recherche
+   */
+  clearSearch() {
+    this.name.set('');
+    this.#filter.update(filter => ({...filter, page:1, name: ''}));
   }
 }
